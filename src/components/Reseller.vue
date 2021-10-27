@@ -9,8 +9,11 @@
         <td>
             {{formatage}}
         </td>
-        <td>
-            {{ status }}
+        <td class="dispo" v-if="status === true">
+            Disponible en stock
+        </td>
+        <td class="rupture" v-else>
+            Rupture de stock
         </td>
     </tr>
 </template>
@@ -20,7 +23,6 @@
     export default {
         name: 'resellers',
         props: [
-            'id',
             'name',
             'status',
             'description',
@@ -36,10 +38,10 @@
 </script>
 
 <style scoped>
-
-    #fournisseurs p {
-        font-family: Verdana;
-        text-decoration: underline;
-        font-weight: 900;
+    .dispo{
+        color:green;
+    }
+    .rupture{
+        color: red;
     }
 </style>

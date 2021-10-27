@@ -10,9 +10,11 @@
         {{ formatage }}
     </td>
 
-
-    <td>
-        {{ status }}
+    <td class="dispo" v-if="status === true">
+        Disponible en stock
+    </td>
+    <td class="rupture" v-else>
+       Rupture de stock
     </td>
 </tr>
 
@@ -43,5 +45,10 @@
 </script>
 
 <style scoped>
-
+.dispo{
+    color:green;
+}
+.rupture{
+    color: red;
+}
 </style>
