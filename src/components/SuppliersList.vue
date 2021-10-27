@@ -45,22 +45,17 @@
         data() {
             return {
                 suppliers: [], // au début la liste des villes est vide
-                resellers: [],
                 loading: false,
                 errored: null,
             }
         },
         mounted() {
-
             this.loading = true;
             axios
                 .get('https://heroku-campus-suppliers.herokuapp.com/api/suppliers')
                 .then(response => {
                     this.suppliers = response.data.data;
-                    this.resellers = this.suppliers.resellers;
-                    console.log(this.resellers);
                     this.loading = false;
-
                 })
                 .catch(error => {
                     console.log(error)

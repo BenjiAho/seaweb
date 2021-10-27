@@ -39,7 +39,7 @@
         computed: {
             formatage() {
                 return format(this.date)
-            }
+            },
         }
     }
 </script>
