@@ -1,11 +1,14 @@
 <template>
+    <div id="banner">
+        <img id="logo" src="./images/seaweb-logo2.png" alt="">
+    </div>
 
-    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+    <nav id="navbar" class="navbar navbar-expand-sm bg-light navbar-light">
         <div class="container-fluid">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <img id="logo" src="./images/seaweb-logo2.png" alt="">
-                </li>
+
+
+
                 <li class="nav-item">
                     <router-link class="nav-link" to="/Home">Home</router-link>
                 </li>
@@ -34,6 +37,10 @@
 </template>
 
 <style>
+    #navbar{
+        padding-top: 0;
+        padding-bottom: 0;
+    }
     body {
         margin: 0;
     }
@@ -49,7 +56,7 @@
     }
 
     #logo {
-        width: 7em;
+
     }
 
     h1, h2 {
@@ -61,5 +68,9 @@
         font-size: xxx-large;
         color: darkgreen;
         font-weight: bold;
+    }
+    #banner{
+        display: flex;
+        justify-content: center;
     }
 </style>

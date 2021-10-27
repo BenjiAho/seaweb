@@ -83,5 +83,23 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    table {
+        border-collapse: collapse;
+    }
 
+    tr:hover {
+        transition-duration: 1s;
+        background-color: cadetblue;
+        color: white;
+    }
+
+    .table-striped > tr:nth-child(even) {
+        background-color: lightcyan;
+    }
+
+    .table-striped > tr:nth-child(even):hover {
+        transition-duration: 1s;
+        background-color: cadetblue;
+        color: white;
+    }
 </style>
