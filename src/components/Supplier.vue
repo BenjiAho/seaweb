@@ -33,7 +33,6 @@
             'status',
             'latitude',
             'longitude',
-
         ],
 
         computed: {

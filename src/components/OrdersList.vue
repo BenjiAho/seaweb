@@ -21,7 +21,7 @@
                     </tr>
 
 
-                    <orders v-for="order in orders" :key="order.id"
+                    <orders v-for="order in orders.data" :key="order.id"
                             :number="order.number"
                             :date="order.date"
                             :price="order.price"
@@ -35,7 +35,7 @@
             </div>
 
         </section>
-
+      <Pagination :links="orders.links" @url="newPagination"/>
 
         <div id="test">
 
@@ -47,14 +47,15 @@
 <script>
 
 
-    // import suppliers from "@/components/Supplier.vue";
+
     import axios from "axios";
     import orders from "@/components/Order.vue";
-    // import Suppliers from "@/components/Supplier";
+    import Pagination from "@/components/Pagination";
+
 
 
     export default {
-        components: {orders},
+        components: {orders, Pagination},
         props: {
             msg: String
         },
@@ -63,24 +64,31 @@
                 orders: [],
                 loading: false,
                 errored: null,
+              url: 'https://heroku-campus-suppliers.herokuapp.com/api/orders',
             }
         },
-        mounted() {
-
-            this.loading = true;
-            axios
-                .get('https://heroku-campus-suppliers.herokuapp.com/api/orders')
-                .then(response => {
-                    this.orders = response.data.data;
-                    console.log(this.orders);
-                    this.loading = false;
-
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.errored = true
-                })
+      methods: {
+        newPagination(e){
+          this.getPage(e)
         },
+        getPage(url) {
+          this.loading = true;
+          axios
+              .get(url)
+              .then(response => {
+                this.orders = response.data;
+                this.loading = false;
+              })
+              .catch(error => {
+                console.log(error)
+                this.errored = true
+              })
+        },
+      },
+      created() {
+        this.getPage(this.url)
+      },
+
     }
 
 </script>

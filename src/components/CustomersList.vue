@@ -18,7 +18,7 @@
                         <th>eMail</th>
                         <th>tél.</th>
                     </tr>
-                    <customers v-for="customer in customers" :key="customer.id"
+                    <customers v-for="customer in customers.data" :key="customer.id"
                                :lastName="customer.lastName"
                                :firstName="customer.firstName"
                                :email="customer.email"
@@ -31,7 +31,7 @@
             </div>
 
         </section>
-
+      <Pagination :links="customers.links" @url="newPagination"/>
 
         <div id="test">
 
@@ -43,14 +43,15 @@
 <script>
 
 
-    // import suppliers from "@/components/Supplier.vue";
+
     import axios from "axios";
     import customers from "@/components/Customer.vue";
-    // import Suppliers from "@/components/Supplier";
+    import Pagination from "@/components/Pagination";
+
 
 
     export default {
-        components: {customers},
+        components: {customers, Pagination},
         props: {
             msg: String
         },
@@ -59,24 +60,31 @@
                 customers: [],
                 loading: false,
                 errored: null,
+              url: 'https://heroku-campus-suppliers.herokuapp.com/api/customers',
             }
         },
-        mounted() {
-
-            this.loading = true;
-            axios
-                .get('https://heroku-campus-suppliers.herokuapp.com/api/customers')
-                .then(response => {
-                    this.customers = response.data.data;
-                    console.log(this.customers);
-                    this.loading = false;
-
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.errored = true
-                })
+      methods: {
+        newPagination(e){
+          this.getPage(e)
         },
+        getPage(url) {
+          this.loading = true;
+          axios
+              .get(url)
+              .then(response => {
+                this.customers = response.data;
+                this.loading = false;
+              })
+              .catch(error => {
+                console.log(error)
+                this.errored = true
+              })
+        },
+      },
+      created() {
+        this.getPage(this.url)
+      },
+
     }
 
 </script>

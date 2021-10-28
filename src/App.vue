@@ -3,7 +3,7 @@
         <img id="logo" src="./images/seaweb-logo2.png" alt="">
     </div>
 
-    <nav id="navbar" class="navbar navbar-expand-sm bg-light navbar-light">
+    <nav id="navbar" class="sticky-top shadow navbar navbar-expand-sm bg-light navbar-light">
         <div class="container-fluid">
             <ul class="navbar-nav">
 
@@ -40,19 +40,21 @@
     #navbar{
         padding-top: 0;
         padding-bottom: 0;
+      position: sticky;
     }
     body {
         margin: 0;
     }
 
     nav ul li a:hover {
-        transition-duration: 1s;
-        color: white;
+        transition-duration: 3s !important;
+        color: white !important;
         background-color: cadetblue;
     }
     nav ul li a.router-link-exact-active {
-        color: white;
+        color: white !important;
         background-color: cadetblue;
+      font-weight: bold;
     }
 
     #logo {

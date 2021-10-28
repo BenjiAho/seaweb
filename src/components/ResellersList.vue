@@ -18,7 +18,7 @@
                         <th>Mis à jour</th>
                         <th>Status</th>
                     </tr>
-                    <resellers v-for="reseller in resellers" :key="reseller.id"
+                    <resellers v-for="reseller in resellers.data" :key="reseller.id"
                                :name="reseller.name"
                                :description="reseller.description"
                                :date="reseller.updated_at"
@@ -30,7 +30,7 @@
             </div>
 
         </section>
-
+      <Pagination :links="resellers.links" @url="newPagination"/>
 
         <div id="test">
 
@@ -40,16 +40,12 @@
 </template>
 
 <script>
-
-
-    // import suppliers from "@/components/Supplier.vue";
     import axios from "axios";
     import resellers from "@/components/Reseller.vue";
-    // import Suppliers from "@/components/Supplier";
-
+    import Pagination from "@/components/Pagination.vue";
 
     export default {
-        components: {resellers},
+        components: {resellers, Pagination},
         props: {
             msg: String
         },
@@ -58,24 +54,31 @@
                 resellers:[],
                 loading: false,
                 errored: null,
+              url: 'https://heroku-campus-suppliers.herokuapp.com/api/resellers',
             }
         },
-        mounted() {
-
-            this.loading = true;
-            axios
-                .get('https://heroku-campus-suppliers.herokuapp.com/api/resellers')
-                .then(response => {
-                    this.resellers = response.data.data;
-                    console.log(this.resellers);
-                    this.loading = false;
-
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.errored = true
-                })
+      methods: {
+        newPagination(e){
+          this.getPage(e)
         },
+        getPage(url) {
+          this.loading = true;
+          axios
+              .get(url)
+              .then(response => {
+                this.resellers = response.data;
+                this.loading = false;
+              })
+              .catch(error => {
+                console.log(error)
+                this.errored = true
+              })
+        },
+      },
+      created() {
+        this.getPage(this.url)
+      },
+
     }
 
 </script>
