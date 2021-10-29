@@ -10,6 +10,13 @@
 
         <section v-else>
             <div id="loading-text" v-if="loading">Chargement...</div>
+          <!--appel component remove-->
+          <Remove :data="resellers.data" @delete="removeButton"/>
+
+          <!--appel SearchBar-->
+          <label>Filter field:</label>
+          <input class="form-control" type="text" v-model="searchBar" placeholder="Search for a name"/>
+
             <div id="perso-table" class="table-responsive table">
                 <table class="table table-striped">
                     <tr class="table-dark" id="full-info">
@@ -18,7 +25,7 @@
                         <th>Mis à jour</th>
                         <th>Status</th>
                     </tr>
-                    <resellers v-for="reseller in resellers.data" :key="reseller.id"
+                    <resellers v-for="reseller in filteredSuppliers" :key="reseller.id"
                                :name="reseller.name"
                                :description="reseller.description"
                                :date="reseller.updated_at"
@@ -43,9 +50,10 @@
     import axios from "axios";
     import resellers from "@/components/Reseller.vue";
     import Pagination from "@/components/Pagination.vue";
+    import Remove from "@/components/deleteById";
 
     export default {
-        components: {resellers, Pagination},
+        components: {Remove, resellers, Pagination},
         props: {
             msg: String
         },
@@ -54,6 +62,7 @@
                 resellers:[],
                 loading: false,
                 errored: null,
+              searchBar: '',
               url: 'https://heroku-campus-suppliers.herokuapp.com/api/resellers',
             }
         },
@@ -74,10 +83,42 @@
                 this.errored = true
               })
         },
+        removeSuppliersById(id){
+          const data = this.resellers.data.filter((element) => element.id !== id)
+          this.resellers = {...this.resellers, data}
+        },
+
+        removeButton(e) {
+          this.remove(e)
+        },
+        remove(e) {
+          axios
+              .get(`https://heroku-campus-suppliers.herokuapp.com/api/resellers/${e}`)
+              .then(response=> {
+                this.removeSuppliersById(response.data.id)
+              })
+              .catch(error => {
+                console.log(error);
+                this.errored = error
+              })
+        },
       },
       created() {
         this.getPage(this.url)
       },
+      computed: {
+        //Fonction pour la searchbar
+        filteredSuppliers() {
+          if (this.searchBar) {
+            return this.resellers.data.filter((item) => {
+              return this.searchBar.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
+            })
+          } else {
+            return this.resellers.data
+          }
+        },
+
+      }
 
     }
 

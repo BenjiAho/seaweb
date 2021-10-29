@@ -10,6 +10,13 @@
 
         <section v-else>
             <div id="loading-text" v-if="loading">Chargement...</div>
+          <!--appel component remove-->
+          <Remove :data="orders.data" @delete="removeButton"/>
+
+          <!--appel SearchBar-->
+          <label>Filter field:</label>
+          <input class="form-control" type="text" v-model="searchBar" placeholder="Search for a number"/>
+
             <div id="perso-table" class="table-responsive table">
                 <table class="table table-striped table-hover">
                     <tr class="table-dark" id="full-info">
@@ -21,7 +28,7 @@
                     </tr>
 
 
-                    <orders v-for="order in orders.data" :key="order.id"
+                    <orders v-for="order in filteredSuppliers" :key="order.id"
                             :number="order.number"
                             :date="order.date"
                             :price="order.price"
@@ -51,11 +58,11 @@
     import axios from "axios";
     import orders from "@/components/Order.vue";
     import Pagination from "@/components/Pagination";
-
+    import Remove from "@/components/deleteById";
 
 
     export default {
-        components: {orders, Pagination},
+        components: {orders, Pagination, Remove},
         props: {
             msg: String
         },
@@ -64,6 +71,7 @@
                 orders: [],
                 loading: false,
                 errored: null,
+              searchBar: '',
               url: 'https://heroku-campus-suppliers.herokuapp.com/api/orders',
             }
         },
@@ -84,10 +92,42 @@
                 this.errored = true
               })
         },
+        removeSuppliersById(id){
+          const data = this.orders.data.filter((element) => element.id !== id)
+          this.orders = {...this.orders, data}
+        },
+
+        removeButton(e) {
+          this.remove(e)
+        },
+        remove(e) {
+          axios
+              .get(`https://heroku-campus-suppliers.herokuapp.com/api/orders/${e}`)
+              .then(response=> {
+                this.removeSuppliersById(response.data.id)
+              })
+              .catch(error => {
+                console.log(error);
+                this.errored = error
+              })
+        },
       },
       created() {
         this.getPage(this.url)
       },
+      computed: {
+        //Fonction pour la searchbar
+        filteredSuppliers() {
+          if (this.searchBar) {
+            return this.orders.data.filter((item) => {
+              return this.searchBar.toLowerCase().split(' ').every(v => item.number.toLowerCase().includes(v))
+            })
+          } else {
+            return this.orders.data
+          }
+        },
+
+      }
 
     }
 
