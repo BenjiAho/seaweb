@@ -17,6 +17,9 @@
           <!--appel component remove-->
           <Remove :data="suppliers.data" @delete="removeButton"/>
 
+          <!--appel component add-->
+          <AddRow :data="suppliers.data" @add="addButton"/>
+
           <!--appel SearchBar-->
           <label>Filter field:</label>
           <input class="form-control" type="text" v-model="searchBar" placeholder="Search for a name"/>
@@ -54,9 +57,10 @@ import suppliers from "@/components/Supplier.vue";
 import axios from "axios";
 import Pagination from "@/components/Pagination.vue";
 import Remove from "@/components/deleteById";
+import AddRow from "@/components/AddRow.vue";
 
 export default {
-  components: {Remove, suppliers, Pagination},
+  components: {Remove, suppliers, Pagination, AddRow},
   props: {
     msg: String
   },
