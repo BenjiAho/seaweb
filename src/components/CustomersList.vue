@@ -18,7 +18,7 @@
           <label>Filter field:</label>
           <input class="form-control" type="text" v-model="searchBar" placeholder="Search for a FirstName"/>
 
-            <div id="perso-table" class="table-responsive table">
+            <div id="perso-table" class=" table">
                 <table class="table table-striped">
                     <tr class="table-dark" id="full-info">
                         <th>Prénom</th>
@@ -147,5 +147,8 @@
         transition-duration: 1s;
         background-color: cadetblue;
         color: white;
+    }
+    #perso-table{
+      width: 100%;
     }
 </style>

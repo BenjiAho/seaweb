@@ -18,9 +18,9 @@
           <Remove :data="suppliers.data" @delete="removeButton"/>
 
           <!--appel component add-->
-          <AddRow :data="suppliers.data" @add="addButton"/>
+          <Add :data="suppliers.data" @add="addRow"/>
 
-          <!--appel SearchBar-->
+          <!--appel fonction SearchBar-->
           <label>Filter field:</label>
           <input class="form-control" type="text" v-model="searchBar" placeholder="Search for a name"/>
 
@@ -29,7 +29,7 @@
       </div>
 
 
-      <div id="perso-table" class="table-responsive table">
+      <div id="perso-table" class="table">
         <table class="table table-striped">
           <tr class="table-dark" id="full-info">
             <th>Le nom</th>
@@ -57,18 +57,24 @@ import suppliers from "@/components/Supplier.vue";
 import axios from "axios";
 import Pagination from "@/components/Pagination.vue";
 import Remove from "@/components/deleteById";
-import AddRow from "@/components/AddRow.vue";
+import Add from "@/components/AddRow.vue";
 
 export default {
-  components: {Remove, suppliers, Pagination, AddRow},
+  components: {Remove, suppliers, Pagination, Add},
   props: {
     msg: String
   },
   data() {
     return {
       suppliers: [], // au début la liste des villes est vide
+      // testAdd: [],
       loading: false,
       errored: null,
+      id:'',
+      name: '',
+      status:'',
+      updated_at:'',
+      // users:[{name:'',status:'',updated_at:''}],
       searchBar: '',
       url: 'https://heroku-campus-suppliers.herokuapp.com/api/suppliers',
     }
@@ -90,6 +96,15 @@ export default {
             this.errored = true
           })
     },
+
+    //ajout de ligne
+    addRow(e) {
+      this.suppliers.data.push(e)
+    },
+
+
+
+
     removeSuppliersById(id) {
       const data = this.suppliers.data.filter((element) => element.id !== id)
       this.suppliers = {...this.suppliers, data}
@@ -126,6 +141,7 @@ export default {
       }
     },
 
+
   }
 
 }
@@ -153,4 +169,10 @@ tr:hover {
   background-color: cadetblue;
   color: white;
 }
+#perso-table{
+  width: 100%;
+}
+.form-outline{
+  display: flex;
+ }
 </style>

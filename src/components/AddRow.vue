@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-dark btn-outline-light d-table my-5 mx-auto" data-bs-toggle="modal" data-bs-target="#AddForm">
+  <button type="button" class="btn btn-success btn-outline-light d-table my-5 mx-auto" data-bs-toggle="modal" data-bs-target="#AddForm">
     Add
   </button>
 
@@ -14,27 +14,35 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="Id">Id<span class="text-danger"></span></label>
-              <input type="number" name="Id" class="form-control" id="Id" placeholder="Enter ID">
+              <label for="Id">ID<span class="text-danger"></span></label>
+              <input v-model="addRow.id" type="number"  name="id" class="form-control" id="id" placeholder="Enter ID">
             </div>
 
             <div class="mb-3">
               <label for="Name">Name<span class="text-danger"></span></label>
-              <input type="text" name="Name" class="form-control" id="Name" placeholder="Enter Name">
+              <input v-model="addRow.name" type="text"  name="name" class="form-control" id="name" placeholder="Enter Name" required>
             </div>
 
             <div class="mb-3">
-              <label for="Stock">Stock<span class="text-danger"></span></label>
-              <input type="text" name="Stock" class="form-control" id="Stock" placeholder="Enter true or false">
+              <label for="Stock"></label>
+              <input type="checkbox" name="Stock" id="Stock" v-model="addRow.status">
+
+              <span v-if="addRow.status == true" class="text-success">
+                Disponible en stock
+              </span>
+
+              <span v-else class="text-danger">
+                Rupture de stock
+              </span>
             </div>
 
             <div class="mb-3">
               <label for="Date">Date<span class="text-danger"></span></label>
-              <input type="text" name="Date" class="form-control" id="Date" placeholder="Enter like this : 1975-11-12T01:36:12.000000Z">
+              <input v-model="addRow.updated_at"  type="date" name="Date" class="form-control" id="Date" placeholder="Enter like this : 1975-11-12T01:36:12.000000Z">
             </div>
           </div>
           <div class="modal-footer pt-4">
-            <button type="button" class="btn btn-success mx-auto w-100" data-bs-dismiss="modal">Add</button>
+            <button type="button" class="btn btn-success mx-auto w-100" data-bs-dismiss="modal"  @click="$emit('add', addRow)">Add</button>
           </div>
         </form>
       </div>
@@ -44,7 +52,7 @@
 
 <script>
 export default {
-  name: "addRow",
+  name: "Add",
   props: {
     data:{
       type: Array,
@@ -53,7 +61,13 @@ export default {
   },
   data(){
     return{
-      deletedId : null
+      addRow : {
+        id:null,
+        name: null,
+        status:true,
+        updated_at:null,
+      },
+
     }
   }
 }
