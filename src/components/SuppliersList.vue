@@ -13,7 +13,7 @@
 
 
       <div class="input-group">
-        <div class="form-outline">
+        <div class="form-outline flex-row">
           <!--appel component remove-->
           <Remove :data="suppliers.data" @delete="removeButton"/>
 
@@ -173,6 +173,6 @@ tr:hover {
   width: 100%;
 }
 .form-outline{
-  display: flex;
+  /*display: flex;*/
  }
 </style>
