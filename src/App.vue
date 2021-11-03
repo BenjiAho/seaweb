@@ -15,6 +15,7 @@
             <router-link class="nav-item nav-link" to="/SuppliersList">Fournisseurs</router-link>
             <router-link class="nav-item nav-link" to="/ResellersList">Revendeurs</router-link>
             <router-link class="nav-item nav-link" to="/CustomersList">Clients</router-link>
+            <router-link class="nav-item nav-link" to="/OnMapClick">Carte Intéractive</router-link>
           </div>
         </div>
       </div>
