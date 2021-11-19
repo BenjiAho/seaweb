@@ -1,68 +1,45 @@
 <template>
-
-  <div style="height: 350px;">
+  <div style="height: 800px;">
     <l-map
-        style="height: 80%; width: 100%"
+        style="height: 100%; width: 100%"
         :zoom="zoom"
         :center="center"
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
     >
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-
-        <l-marker v-for="marker of markers.data"
-        :lat-lng="marker.latitude"
-        :key="marker.latitude"
-        >
-
-        </l-marker>
-
+      <l-marker :lat-lng="campus"></l-marker>
     </l-map>
   </div>
 </template>
+
 <script>
 import "leaflet/dist/leaflet.css";
-import {LMap, LTileLayer, LMarker} from '@vue-leaflet/vue-leaflet';
-// import suppliers from "@/components/suppliersLocation";
-import axios from "axios";
-
+import {LMap, LTileLayer,LMarker} from '@vue-leaflet/vue-leaflet';
 export default {
+  name: 'Map',
   components: {
     LMap,
     LTileLayer,
     LMarker,
   },
-  data() {
+  data () {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
-          '&copy; <a target="_blank" href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors',
+          '&copy; <a target="_blank" href="http://osm.org/copyright%22%3EOpenStreetMap"</a> contributors',
       zoom: 3,
       center: [47.413220, -1.219482],
-      markers: [],
+      campus : [45.64080539261331, 5.874018113832485],
     };
   },
   methods: {
-    zoomUpdated(zoom) {
+    zoomUpdated (zoom) {
       this.zoom = zoom;
     },
-    centerUpdated(center) {
+    centerUpdated (center) {
       this.center = center;
-    },
-    getLocations() {
-      axios
-          .get('https://heroku-campus-suppliers.herokuapp.com/api/suppliers')
-          .then(response => {
-            this.suppliers = response.data;
-            for(let supplier of this.suppliers){
-              this.markers.push(supplier.latitude,supplier.longitude)
-            }
-          })
     },
   }
 }
-
 </script>
-
-<style scoped>
-</style>

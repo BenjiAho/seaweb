@@ -12,8 +12,7 @@
       <div id="loading-text" v-if="loading">Chargement...</div>
 
 
-      <div class="input-group">
-        <div class="form-outline flex-row">
+        <div class="form-outline flex flex-row-reverse align-items-center">
           <!--appel component remove-->
           <Remove :data="suppliers.data" @delete="removeButton"/>
 
@@ -21,12 +20,12 @@
           <Add :data="suppliers.data" @add="addRow"/>
 
           <!--appel fonction SearchBar-->
+          <input class="form-control w-25 h-25 m-" type="text" v-model="searchBar" placeholder="Search for a name"/>
           <label>Filter field:</label>
-          <input class="form-control" type="text" v-model="searchBar" placeholder="Search for a name"/>
+
 
 
         </div>
-      </div>
 
 
       <div id="perso-table" class="table">
